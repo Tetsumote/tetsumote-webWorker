@@ -10,9 +10,6 @@ onmessage = function(event) {
     postMessage(primes);
   };
   
-  function findPrimes(fromNumber, toNumber) {
-    // (The boring prime number calculations go in this function.)
-  }
 
   function findPrimes(fromNumber, toNumber) {
 
@@ -27,8 +24,13 @@ onmessage = function(event) {
     var maxDiv = Math.round(Math.sqrt(toNumber));
     var primes = [];
   
+    //for number less than list.length
     for (var i=0; i<list.length; i++) {
+      
+      //define constant
       var failed = false;
+      
+      //
       for (var j=2; j<=maxDiv; j++) {
         if ((list[i] != j) && (list[i] % j == 0)) {
           failed = true;
