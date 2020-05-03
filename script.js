@@ -41,4 +41,4 @@ console.log(primes)
   
   // Allow more searches.
   searchButton.disabled = false;
-}
+} 
