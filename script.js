@@ -5,6 +5,7 @@ var searchButton;
 window.onload = function() {
   statusDisplay = document.getElementById("status");
   searchButton = document.getElementById("searchButton");
+  statusDisplay.innerHTML = "After loading big data it take some time to render the output.Be patient..."; 
 };
 function doSearch() {
   // Disable the button, so the user can't start more than one search
@@ -33,12 +34,10 @@ function doSearch() {
   //  fromNumber + " to " + toNumber + ") ...";
 }
 function receivedWorkerMessage(event) {
-  console.log("test");
   var message = event.data;
   console.log(message)
   if (message.messageType == "PrimeList") {
     var primes = message.data;
-    console.log(primes);
     // Show the prime number list on the page.
     var primeList = "";
     for (var i=0; i<primes.length; i++) {
@@ -57,7 +56,11 @@ function receivedWorkerMessage(event) {
     searchButton.disabled = false;
   }
   else if (message.messageType == "Progress") {
-    statusDisplay.innerHTML = message.data + "% done ...";
+    if(message.data === 100){
+      statusDisplay.innerHTML = message.data + "% done rendering...";
+    }else{
+      statusDisplay.innerHTML = message.data + "% done ...";
+    }
   }
 } 
 
