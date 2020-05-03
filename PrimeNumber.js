@@ -28,7 +28,7 @@ onmessage = function(event) {
     var previousProgress;
   
     //for number less than list.length
-    for (var i=0; i<list.length; i++) {
+    for (var i=0; i<list.length; i++) { 
       
       //define constant
       var failed = false;
