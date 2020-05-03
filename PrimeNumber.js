@@ -41,4 +41,4 @@ onmessage = function(event) {
     }
   
     return primes;
-  }
+  } 
