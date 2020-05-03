@@ -1,5 +1,11 @@
+var statusDisplay;
 var worker;
+var searchButton;
 
+window.onload = function() {
+  statusDisplay = document.getElementById("status");
+  searchButton = document.getElementById("searchButton");
+};
 function doSearch() {
   // Disable the button, so the user can't start more than one search
   // at the same time.
@@ -20,25 +26,48 @@ function doSearch() {
    { from: fromNumber,
      to: toNumber }
   );
-
+  statusDisplay.innerHTML = "A web worker is on the job ("+
+   fromNumber + " to " + toNumber + ") ...";  
   // Let the user know that things are on their way.
   // statusDisplay.innerHTML = "A web worker is on the job ("+
   //  fromNumber + " to " + toNumber + ") ...";
 }
 function receivedWorkerMessage(event) {
-  // Get the prime number list.
-  var primes = event.data;
-      // Show the prime number list on the page.
-      var primeList = "";
-      for (var i=0; i<primes.length; i++) {
-        primeList += primes[i];
-        if (i != primes.length-1) primeList += ", ";
-      }
-      var displayList = document.getElementById("primeContainer");
-      displayList.innerHTML = primeList;
-  // Copy the list to the page.
-console.log(primes)
-  
-  // Allow more searches.
-  searchButton.disabled = false;
+  console.log("test");
+  var message = event.data;
+  console.log(message)
+  if (message.messageType == "PrimeList") {
+    var primes = message.data;
+    console.log(primes);
+    // Show the prime number list on the page.
+    var primeList = "";
+    for (var i=0; i<primes.length; i++) {
+      primeList += primes[i];
+      if (i != primes.length-1) primeList += ", ";
+    }
+    var displayList = document.getElementById("primeContainer");
+    displayList.innerHTML = primeList;
+
+    if (primeList.length == 0) {
+      statusDisplay.innerHTML = "Search failed to find any results.";
+    }
+    else {
+      statusDisplay.innerHTML = "The results are here!";
+    }
+    searchButton.disabled = false;
+  }
+  else if (message.messageType == "Progress") {
+    statusDisplay.innerHTML = message.data + "% done ...";
+  }
 } 
+
+function workerError(error) {
+  statusDisplay.innerHTML = error.message;
+}
+
+function cancelSearch() {
+  worker.terminate();
+  worker = null;
+  statusDisplay.innerHTML = "Search cancelled.";
+  searchButton.disabled = false;
+}

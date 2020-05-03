@@ -7,7 +7,9 @@ onmessage = function(event) {
     var primes = findPrimes(fromNumber, toNumber);
   
     // Now the search is finished. Send back the results.
-    postMessage(primes);
+    postMessage(
+      {messageType: "PrimeList", data: primes}
+     );
   };
   
 
@@ -23,6 +25,7 @@ onmessage = function(event) {
     // Test for primes.
     var maxDiv = Math.round(Math.sqrt(toNumber));
     var primes = [];
+    var previousProgress;
   
     //for number less than list.length
     for (var i=0; i<list.length; i++) {
@@ -38,7 +41,16 @@ onmessage = function(event) {
           primes.push(list[i]);
         }
       }
-    }
+      
+      // Give a progress update.
+      var progress = Math.round(i/list.length*100);
+        if (progress != previousProgress) {
+          postMessage(
+          {messageType: "Progress", data: progress}
+          );
+          previousProgress = progress;   
+        }
+      }
   
     return primes;
   }
