@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web worker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <p>Do a prime number search from <input id="from" value="1"> to <input id="to" value="2000000" size="100"></p>
+    <button onclick="doSearch()" id="searchButton">Start searching</button>
+    <button onclick="cancelSearch()">Cancel</button>
+
+    <div id="primeContainer"></div>
+
+    <div id="status"></div>
+    <script src="script.js"></script>
+</body>
+</html>
